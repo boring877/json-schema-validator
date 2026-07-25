@@ -1,7 +1,7 @@
 {
-  "name": "json-schema-example",
+  "name": "json-schema-validator",
   "version": "1.0.0",
-  "description": "JSON Schema (Draft 2020-12) example: schemas, runtime validation (Ajv), and TS type generation.",
+  "description": "Validate JSON documents against Draft 2020-12 schemas and generate TypeScript types from them.",
   "type": "module",
   "scripts": {
     "validate": "tsx src/validate.ts",

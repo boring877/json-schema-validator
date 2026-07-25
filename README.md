@@ -1,10 +1,12 @@
-# JSON Schema Example
+# JSON Schema Validator
 
-A small, self-contained project demonstrating how I work with **JSON Schema (Draft 2020-12)** in practice:
+Validate JSON documents against **JSON Schema (Draft 2020-12)** and generate TypeScript types from those schemas. The schema is the single source of truth — runtime validation rules and TypeScript types are both derived from it, so they can never drift out of sync.
 
-- ✍️ Authoring schemas with the modern Draft 2020-12 vocabulary (`$id`, `$defs`, `$ref`, `format`, `pattern`, `enum`, `additionalProperties`, …)
-- 🔍 **Runtime validation** of JSON documents with [Ajv](https://ajv.js/) — including `$ref` resolution across multiple files and meaningful error reporting
-- 🏭 **Type generation** from the schema with [json-schema-to-typescript](https://github.com/bcherny/json-schema-to-typescript) — the schema is the single source of truth, TypeScript types are generated from it
+## Features
+
+- **Draft 2020-12 schemas** — `$id`, `$defs`, cross-file `$ref`, `format`, `pattern`, `enum`, `additionalProperties`, `examples`
+- **Runtime validation** with [Ajv](https://ajv.js/) — multi-file `$ref` resolution, format checks (`uuid`, `email`, `date-time`), and human-readable error reporting
+- **Type generation** with [json-schema-to-typescript](https://github.com/bcherny/json-schema-to-typescript) — emits TypeScript interfaces from the schema, no manual types to maintain
 
 ## Repo layout
 
@@ -13,26 +15,27 @@ schemas/
   user.schema.json      # User schema (Draft 2020-12)
   address.schema.json   # Address subschema, referenced via $ref
 data/
-  valid/user.json       # should validate ✅
-  invalid/user.json     # should be rejected ✅
+  valid/user.json       # document that validates cleanly
+  invalid/user.json     # document that should be rejected
 src/
   validate.ts           # loads schemas, validates data/, prints errors
   generate-types.ts     # compiles the schema into src/types/user.ts
 ```
 
-## Quick start
+## Usage
+
+Requirements: Node 18+ (or [Bun](https://bun.sh)/tsx).
 
 ```bash
 npm install
-npm run validate          # validate the sample data
-npm run generate-types    # write src/types/user.ts
+npm run validate          # validate the documents under data/
+npm run generate-types    # write src/types/user.ts from schemas/user.schema.json
+npm run build             # type-check with tsc
 ```
 
-You'll need Node 18+ (or [Bun](https://bun.sh)/tsx).
+## The schema
 
-## The schema in one screenshot
-
-`schemas/user.schema.json` exercises the features most teams care about:
+`schemas/user.schema.json` uses the modern Draft 2020-12 vocabulary:
 
 | Feature | Where |
 |---|---|
@@ -46,14 +49,30 @@ You'll need Node 18+ (or [Bun](https://bun.sh)/tsx).
 | `$ref` to another schema file | `address` → `address.schema.json` |
 | `examples` | bottom of the file |
 
+## Validation output
+
+Invalid documents produce a structured error for every violated constraint, with the instance path and the failing params:
+
+```
+=== Should FAIL ===
+  ✗ user.json
+      • [(root)] must NOT have additional properties
+        params: {"additionalProperty":"extraUnknownField"}
+      • [/id] must match format "uuid"
+      • [/email] must match format "email"
+      • [/role] must be equal to one of the allowed values
+        params: {"allowedValues":["admin","editor","viewer"]}
+      ...
+```
+
 ## Why JSON Schema?
 
-It's the lingua franca of API contracts: language-agnostic, supported by OpenAPI 3.1 (which adopted Draft 2020-12 wholesale), and lets you generate docs, types, mock data, and validators from one artifact. Keeping the schema as the source of truth means the TS types, the validation rules and the API docs can't drift out of sync.
+It's the de facto language for API contracts: language-agnostic, the foundation of OpenAPI 3.1 (which adopted Draft 2020-12 wholesale), and lets you generate docs, types, mock data, and validators from one artifact.
 
-## Useful links
+## Links
 
 - JSON Schema spec — https://json-schema.org/
-- Understanding JSON Schema (book) — https://json-schema.org/understanding-json-schema
+- Understanding JSON Schema — https://json-schema.org/understanding-json-schema
 - Ajv docs — https://ajv.js.org/
 - json-schema-to-typescript — https://github.com/bcherny/json-schema-to-typescript
 
