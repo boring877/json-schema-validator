@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "address.schema.json",
+  "title": "Address",
+  "description": "A physical mailing address. Referenced by user.schema.json via $ref.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["street", "city", "postalCode", "country"],
+  "properties": {
+    "street": { "type": "string", "minLength": 1 },
+    "city": { "type": "string", "minLength": 1 },
+    "postalCode": { "type": "string" },
+    "country": { "type": "string" }
+  }
+}

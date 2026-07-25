@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "user.schema.json",
+  "title": "User",
+  "description": "A user account record.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "username", "email", "role", "createdAt"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Globally unique user identifier (UUIDv4)."
+    },
+    "username": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 32,
+      "pattern": "^[a-zA-Z0-9_-]+$",
+      "description": "Unique handle; alphanumeric, underscore or hyphen only."
+    },
+    "email": {
+      "type": "string",
+      "format": "email"
+    },
+    "age": {
+      "type": "integer",
+      "minimum": 13,
+      "maximum": 125,
+      "description": "User age in years. Must be at least 13."
+    },
+    "role": {
+      "enum": ["admin", "editor", "viewer"]
+    },
+    "tags": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "address": {
+      "$ref": "address.schema.json",
+      "description": "Optional mailing address."
+    },
+    "isActive": {
+      "type": "boolean",
+      "default": true
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "examples": [
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440000",
+      "username": "jane_doe",
+      "email": "jane@example.com",
+      "role": "editor",
+      "createdAt": "2026-07-25T10:00:00Z"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "id": "not-a-uuid",
+  "username": "no",
+  "email": "jane@",
+  "role": "superuser",
+  "tags": ["dup", "dup"],
+  "address": {
+    "street": "",
+    "city": ""
+  },
+  "createdAt": "yesterday",
+  "extraUnknownField": true
+}

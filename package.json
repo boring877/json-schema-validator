@@ -1,0 +1,21 @@
+{
+  "name": "json-schema-example",
+  "version": "1.0.0",
+  "description": "JSON Schema (Draft 2020-12) example: schemas, runtime validation (Ajv), and TS type generation.",
+  "type": "module",
+  "scripts": {
+    "validate": "tsx src/validate.ts",
+    "generate-types": "tsx src/generate-types.ts",
+    "build": "tsc --noEmit"
+  },
+  "keywords": ["json-schema", "ajv", "validation", "typescript"],
+  "license": "MIT",
+  "devDependencies": {
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1",
+    "json-schema-to-typescript": "^15.0.4",
+    "tsx": "^4.20.3",
+    "typescript": "^5.9.2",
+    "@types/node": "^24.0.0"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "id": "550e8400-e29b-41d4-a716-446655440000",
+  "username": "jane_doe",
+  "email": "jane@example.com",
+  "age": 29,
+  "role": "editor",
+  "tags": ["newsletter", "beta-tester"],
+  "address": {
+    "street": "123 Market St",
+    "city": "San Francisco",
+    "postalCode": "94103",
+    "country": "USA"
+  },
+  "isActive": true,
+  "createdAt": "2026-07-25T10:00:00Z"
+}
